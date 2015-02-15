@@ -1,1 +1,0 @@
-/home/zedexodus/bin/set-alsa.sh
