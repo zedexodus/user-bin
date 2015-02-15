@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Find default sound card.
+MYDEFAULTSNDCARD=$(aplay -l | grep SB -m 1 | sed 's/://g' | awk '{print $2}')
+
+# Find out what the card is set to.
+CONFIGUREDSNDCARD=$(cat ~/.asoundrc | grep card -m 1 | awk '{print $2}')
+
+if [ $MYDEFAULTSNDCARD != $CONFIGUREDSNDCARD ]
+    then
+        # Rename current config
+        mv ~/.asoundrc ~/.asoundrc.old
+        # Replace incorrect sound card with correct sound card and create new config
+        cat ~/.asoundrc.old | sed "s/card $CONFIGUREDSNDCARD/card $MYDEFAULTSNDCARD/g" > ~/.asoundrc
+        # Remove old config
+        rm ~/.asoundrc.old
+fi
